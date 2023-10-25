@@ -9,8 +9,8 @@ import com.example.c4l3dop.R
 import com.example.c4l3dop.databinding.FirstRecyclerItemBinding
 import com.example.c4l3dop.models.FirstRecyclerModel
 
-class FirstRecyclerAdapter(private val categories : List<FirstRecyclerModel>) : RecyclerView.Adapter<FirstRecyclerAdapter.Holder>() {
-
+class FirstRecyclerAdapter(private var categories : List<FirstRecyclerModel>) : RecyclerView.Adapter<FirstRecyclerAdapter.Holder>() {
+    private var originalCategories: List<FirstRecyclerModel> = categories.toList() // Сохраните оригинальные данные
     class Holder(item : View) : RecyclerView.ViewHolder(item){
         private val binding = FirstRecyclerItemBinding.bind(item)
         fun bind(firstRecyclerModel: FirstRecyclerModel) = with(binding){
@@ -35,5 +35,26 @@ class FirstRecyclerAdapter(private val categories : List<FirstRecyclerModel>) : 
         holder.bind(
             categories[position]
         )
+    }
+
+    fun filterByName(name: String) {
+        //categories = originalCategories
+        // Примените фильтр ко внутреннему списку данных
+        categories = originalCategories
+        // Пройдитесь по каждому FirstRecyclerModel
+        val filteredList = categories.map { firstRecyclerModel ->
+            val filteredList = firstRecyclerModel.list.filter { secondRecyclerModel ->
+                secondRecyclerModel.name.contains(name, true)
+            }
+            // Верните FirstRecyclerModel с обновленным списком SecondRecyclerModel
+            firstRecyclerModel.copy(list = filteredList)
+        }.filter { firstRecyclerModel ->
+            // Оставьте только те FirstRecyclerModel, у которых есть хотя бы один SecondRecyclerModel после фильтрации
+            firstRecyclerModel.list.isNotEmpty()
+        }
+
+        // Обновите список данных и вызовите notifyDataSetChanged() для обновления RecyclerView
+        categories = filteredList
+        notifyDataSetChanged()
     }
 }

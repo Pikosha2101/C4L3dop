@@ -7,14 +7,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.c4l3dop.R
 import com.example.c4l3dop.databinding.SecondRecyclerItemBinding
 import com.example.c4l3dop.models.SecondRecyclerModel
+import com.squareup.picasso.Picasso
 
-class SecondRecyclerAdapter(private val items : List<SecondRecyclerModel>) :
+class SecondRecyclerAdapter(private var items : List<SecondRecyclerModel>) :
     RecyclerView.Adapter<SecondRecyclerAdapter.Holder>(){
 
     class Holder(item : View) : RecyclerView.ViewHolder(item){
         private val binding = SecondRecyclerItemBinding.bind(item)
         fun bind(secondRecyclerModel: SecondRecyclerModel) = with(binding){
-            imageView.setImageResource(secondRecyclerModel.image)
+            Picasso.get().load(secondRecyclerModel.image).into(imageView)
+            //imageView.setImageResource(secondRecyclerModel.image)
             nameTextView.text = secondRecyclerModel.name
             ratingTextView.text = secondRecyclerModel.rating.toString()
         }
@@ -36,4 +38,5 @@ class SecondRecyclerAdapter(private val items : List<SecondRecyclerModel>) :
             items[position]
         )
     }
+
 }

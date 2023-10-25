@@ -18,7 +18,7 @@ class SecondRecyclerAdapter(private var items : List<SecondRecyclerModel>) :
             Picasso.get().load(secondRecyclerModel.image).into(imageView)
             //imageView.setImageResource(secondRecyclerModel.image)
             nameTextView.text = secondRecyclerModel.name
-            ratingTextView.text = secondRecyclerModel.rating.toString()
+            ratingTextView.text = secondRecyclerModel.price.toString()
         }
     }
 
